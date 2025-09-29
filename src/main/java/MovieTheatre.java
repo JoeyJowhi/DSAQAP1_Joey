@@ -37,7 +37,28 @@ public class MovieTheatre {
                 this.seatingArea[rowSelector][columnSelector] = 1;
                 return "Seat reserved successfully.";
             } else {
-                return "Seat already reserved.";
+                int recommendedRow = -1, recommendedColumn = -1;
+                int currentRow = 0, currentColumn = 0;
+
+                while(recommendedRow == -1 && recommendedColumn == -1) {
+                    while(currentColumn <= this.seatingArea[currentRow].length) {
+                        if (this.seatingArea[currentRow][currentColumn] == 0) {
+                            recommendedRow = currentRow;
+                            recommendedColumn = currentColumn;
+                            break;
+                        }
+
+                        currentColumn++;
+                    }
+
+                    currentRow++;
+                }
+
+                if (recommendedRow == -1 && recommendedColumn == -1) {
+                    return "Seat already reserved. We apologize, there are no available seats at this time.";
+                }
+
+                return String.format("Seat already reserved. How about trying the seat at row %d column %d instead?", recommendedRow, recommendedColumn);
             }
         } catch (ArrayIndexOutOfBoundsException e) {
             return "Error: " + e;
